@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "floatn.h": "c",
+        "colormapinput.h": "c",
+        "math.h": "c",
+        "stdint.h": "c",
+        "string.h": "c"
+    }
+}
