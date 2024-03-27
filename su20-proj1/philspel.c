@@ -70,7 +70,12 @@ int main(int argc, char **argv) {
  */
 unsigned int stringHash(void *s) {
   char *string = (char *)s;
-  // -- TODO --
+  unsigned int hash = 5381;
+  int c;
+  while ((c = *string++)) {
+      hash = ((hash << 5) + hash) + c;
+  }
+  return hash;
 }
 
 /*
@@ -80,7 +85,11 @@ unsigned int stringHash(void *s) {
 int stringEquals(void *s1, void *s2) {
   char *string1 = (char *)s1;
   char *string2 = (char *)s2;
-  // -- TODO --
+  if (strcmp(string1, string2) == 0) {
+      return 1;
+  } else {
+      return 0;
+  }
 }
 
 /*
@@ -100,7 +109,23 @@ int stringEquals(void *s1, void *s2) {
  * arbitrarily long dictionary chacaters.
  */
 void readDictionary(char *dictName) {
-  // -- TODO --
+    FILE *file = fopen(dictName, "r");
+    if (file == NULL) {
+        fprintf(stderr, "Open file err. \n");
+        exit(1);
+    }
+
+    char word[61];
+    while (fscanf(file, "%s", word) != EOF) {
+        char *wordCopy = (char *)malloc((strlen(word) + 1) * sizeof(char));
+        if (wordCopy == NULL) {
+            fprintf(stderr, "Out of memory. \n");
+            exit(1);
+        }
+        strcpy(wordCopy, word);
+        insertData(dictionary, wordCopy, wordCopy);
+    }
+    fclose(file);
 }
 
 /*
@@ -125,5 +150,37 @@ void readDictionary(char *dictName) {
  * final 20% of your grade, you cannot assume words have a bounded length.
  */
 void processInput() {
-  // -- TODO --
+    int c;
+    char word[61];
+    int index = 0;
+
+    while ((c = getchar()) != EOF) {
+        if (isalpha(c)) {
+            if (index < 60) {
+                word[index++] = c;
+            }
+        } else {
+            if (index > 0) {
+                word[index] = '\0';
+                char *wordCopy = (char *) malloc(strlen(word) + 1);
+                strcpy(wordCopy, word);
+
+                if (findData(dictionary, wordCopy) == NULL) {
+                    for (int i = 0; wordCopy[i]; i++) {
+                        wordCopy[i] = tolower(wordCopy[i]);
+                    }
+                    if (findData(dictionary, wordCopy) == NULL) {
+                        printf("%s [sic]", word);
+                    } else {
+                        printf("%s", word);
+                    }
+                } else {
+                    printf("%s", word);
+                }
+                free(wordCopy);
+                index = 0;
+            }
+            putchar(c);
+        }
+    }
 }
