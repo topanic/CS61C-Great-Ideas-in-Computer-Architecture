@@ -18,6 +18,7 @@ CS61C 课程实验代码
 ## projs
 
 - [x] Fa20-Project1: philspel
-- [ ] Fa20-project2: classify
+- [x] Fa20-project2: classify (只完成了一半，还有一半待完成)
 - [ ] Fa20-project3: CPU
-- [x] Fa20-project4: numc
+- [ ] Fa20-project4: numc
+
