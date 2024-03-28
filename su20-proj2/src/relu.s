@@ -14,25 +14,45 @@
 # ==============================================================================
 relu:
     # Prologue
+    addi sp, sp, -8
+    sw ra, 4(sp)
+    sw a1, 0(sp)
+
+    # Check if the length of the array is less than 1
+    blez a1, error_exit
 
 
 loop_start:
-    
+    # Load the current element into a register
+    lw t0, 0(a0)
 
+    # Compare the value with 0
+    bltz t0, set_zero
 
+    # Continue to the next element
+    addi a0, a0, 4
+    addi a1, a1, -1
+    bnez a1, loop_start
+    j loop_end
 
+set_zero:
+    # Set the value to 0
+    sw zero, 0(a0)
 
-
-
-
-loop_continue:
-
+    # Continue to the next element
+    addi a0, a0, 4
+    addi a1, a1, -1
+    bnez a1, loop_start
 
 
 loop_end:
-
-
     # Epilogue
+    lw ra, 4(sp)
+    lw a1, 0(sp)
+    addi sp, sp, 8
+    jr ra
 
-    
-	ret
+error_exit:
+    # Exit with error code 8
+    li a7, 8
+    ecall
