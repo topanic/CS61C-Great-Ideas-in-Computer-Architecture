@@ -13,7 +13,7 @@ CS61C 课程实验代码
 - [x] Lab08: virtual memory
 - [ ] Lab09: SIMD
 - [x] Lab10: openMP
-- [x] Lab11: Spark
+- [ ] Lab11: Spark
 
 ## projs
 
